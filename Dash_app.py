@@ -118,23 +118,23 @@ app.layout = dbc.Container(
                     children=[
                         html.Div(description_card(), style={'margin-right': '0px',}),
                         html.Div(play_select_card(), style={"width": "60%", 'margin-left': '80px', 'margin-top': '40px',}),
-                    ], style={'margin-left': '0px', 'margin-right': '-10px',
+                    ], style={'margin-left': '20px', 'margin-right': '0px',
                               'margin-top': '40px', 'margin-bottom': '0px'}
                 ), xs={'size': 12}, sm={'size': 12}, md={'size': 12},
-                lg={'size': 2}, xl={'size': 2},
+                lg={'size': 3}, xl={'size': 2},
             ),
 
             dbc.Col(
                 html.Div(children = [
                     html.P(id = 'Id-text',
-                           style={'margin-top': '10px','margin-left': '50px', 'text-align': 'center',
+                           style={'margin-top': '10px','margin-left': '0px', 'text-align': 'center',
                                   'font-family': 'Roboto, sans-serif', 'color': 'grey',}),
                     dcc.Graph(id = 'plot_frames_legend',
                               config={'displayModeBar': False}),
-                    dcc.Graph(id='plot_frames',)
-                    ], style = {'margin-left': '0px', 'margin-right': '0px'}
+                    dcc.Graph(id='plot_frames', style = {'width':'100%'})
+                    ], style = {'margin-left': '0px', 'margin-right': '0px', "overflow-x": "auto",}
                 ),  xs={'size': 12}, sm={'size': 12}, md={'size': 12},
-                lg={'size': 4}, xl={'size': 4},
+                lg={'size': 9}, xl={'size': 4},
             ),
 
             dbc.Col(
@@ -149,7 +149,7 @@ app.layout = dbc.Container(
                                           'font-family': 'Roboto, sans-serif', 'font-size': 18, }),
                             dcc.Graph(id='plot-voronoi', config={'displayModeBar': False, 'doubleClick': False},
                                       style={'margin-top': '-10px', 'margin-left': '0px'}, )
-                        ], style={'display': 'inline-block', 'vertical-align': 'top', 'width': '500px'},
+                        ], style={'display': 'inline-block', 'vertical-align': 'top', 'width': '480px'},
 
                     ),
                     html.Div(
@@ -157,17 +157,17 @@ app.layout = dbc.Container(
                             html.P(
                                 "SoF (sum of freedom): A measure of area to quantify how free the ball carrier "
                                 "can move under the defense team's pressure at caught moment, calculated with Voronoi statistics.",
-                                style={'margin-top': '10px', 'margin-left': '60px', 'margin-right': '0px',}, ),
+                                style={'margin-top': '10px', 'margin-left': '30px', 'margin-right': '0px', 'padding': '0px'}, ),
                             html.P("MPD (minimum possible distance): The minimum achievable distance between a defender and "
                                 "a carrier, calculated based on their current positions and velocities at caught moment.",
-                                   style = {'margin-top': '10px', 'margin-left': '60px', 'margin-right': '0px',},),
+                                   style = {'margin-top': '10px', 'margin-left': '30px', 'margin-right': '0px', 'padding': '0px'},),
                             html.P('Near Defenders MPD (yards) at caught',
                                    style={'margin-top': '20px', 'margin-left': '20px', 'text-align': 'center',
                                           'font-family': 'Roboto, sans-serif', 'font-size': 18}),
                             dcc.Graph(id='plot-MPD', config={'displayModeBar': False, 'doubleClick': False},
-                                      style={'margin-top': '20px', 'margin-left': '0px', 'margin-right': '15px'})
+                                      style={'margin-top': '20px', 'margin-left': '0px', 'margin-right': 'px'})
                         ], style={'display': 'inline-block', 'vertical-align': 'top', 'margin-top': '30px',
-                                  'margin-left': '0px', 'margin-right': '0px', 'width': '520px'},
+                                  'margin-left': '0px', 'margin-right': '0px', 'width': '480px', 'padding': '0px'},
 
                     ),
                     html.Hr(style={'margin-top': '2px', 'margin-bottom': '16px', 'border-width': '2px',
@@ -184,14 +184,14 @@ app.layout = dbc.Container(
                                       style={'margin-top': '0px', 'margin-left': '130px'})
                         ], style={'margin-top': '0px', 'margin-left': '0px', 'width': '90%'}
                     )
-                ],
+                ], style = {"overflow-x": "auto", 'margin-right': '-40px', 'padding': '0px'},
                 xs={'size': 12}, sm={'size': 12}, md={'size': 12},
-                lg={'size': 6}, xl={'size': 6}
+                lg={'size': 10}, xl={'size': 6}
             )
 
         ])
 
-    ]
+    ],
 )
 
 @app.callback(
@@ -255,7 +255,7 @@ def plot_frames(date, gameId, playId):
     yardstogo = play['yardsToGo'].item()
     ablos = play['absoluteYardlineNumber'].item()
 
-    fig0, fig = tackle_plot.plot(tracking, date, tacklers, carrier, offense, defense, down, yardstogo, ablos, 850, 760)
+    fig0, fig = tackle_plot.plot(tracking, date, tacklers, carrier, offense, defense, down, yardstogo, ablos, 800, 760)
 
     id_text = f'gameId: {gameId} | playId: {playId}'
     return fig0, fig, id_text
