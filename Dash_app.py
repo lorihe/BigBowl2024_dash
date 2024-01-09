@@ -152,7 +152,7 @@ app.layout = dbc.Container(
                     ),
                     html.Div(
                         children=[
-                            html.P('Near Defenders MPD',
+                            html.P('Near Defenders MPD at caught',
                                    style={'margin-top': '100px', 'margin-left': '20px', 'text-align': 'center',
                                           'font-family': 'Roboto, sans-serif', 'font-size': 18}),
                             dcc.Graph(id='plot-MPD', config={'displayModeBar': False},
@@ -213,6 +213,7 @@ def plot_frames(date, gameId, playId):
 
     if not playId:
         playId = dash_list[date][gameId][0]
+        
     gameId = int(gameId)
     playId = int(playId)
 
@@ -307,7 +308,7 @@ def get_vor_SoF(date, gameId, playId):
                                not np.any((p == np.vstack([boundary_points, carrier_caught_xy])).all(axis=1))])
 
     SoF_lr_text = f'SoF_left: {round(area_left, 1)} | log(SoF_left+1): {round(log_area_left, 1)}, | SoF_right: {round(area_right, 1)}'
-    SoF_text = f'SoF: {round(SoF, 1)} yards\u00B2'
+    SoF_text = f'SoF at caught: {round(SoF, 1)} yards\u00B2'
 
     defenders_MPD = {}
     for coord in defense_nbs_xy:
