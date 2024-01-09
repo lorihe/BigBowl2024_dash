@@ -57,7 +57,7 @@ def description_card():
                     style={"font-size": "24px", "font-weight": "bold", "margin-left": "40px"}),
 
             html.P("This Dashboard is part of the submission to NFL Big Data Bowl 2024 competition "
-                   "which focuses on 'tackling'. A gradient boost survival analysis model was trained on the tracking "
+                   "which focuses on 'tackling'. A gradient boosted survival analysis model was trained on the tracking "
                    "data of short pass plays in NFL 2022 season to predict probability of down after caught. "
                    "Detailed explanation can be found in the Kaggle Notebook:",
                    style={"margin-left": "40px", "margin-top": "10px"}),
