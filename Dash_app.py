@@ -158,6 +158,8 @@ app.layout = dbc.Container(
                                 "SoF (sum of freedom): A measure of area to quantify how free the ball carrier "
                                 "can move under the defense team's pressure at caught moment, calculated with Voronoi statistics.",
                                 style={'margin-top': '10px', 'margin-left': '30px', 'margin-right': '0px', 'padding': '0px'}, ),
+                            html.P("Offender(s) within convex hull (dot-line in plot) indicates existence of effective blocker.",
+                                style={'margin-top': '10px', 'margin-left': '30px', 'margin-right': '0px', 'padding': '0px'}, ),
                             html.P("MPD (minimum possible distance): The minimum achievable distance between a defender and "
                                 "a carrier, calculated based on their current positions and velocities at caught moment.",
                                    style = {'margin-top': '10px', 'margin-left': '30px', 'margin-right': '0px', 'padding': '0px'},),
