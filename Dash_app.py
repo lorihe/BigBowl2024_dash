@@ -56,15 +56,17 @@ def description_card():
                     className="text-dark",
                     style={"font-size": "24px", "font-weight": "bold", "margin-left": "40px"}),
 
-            html.P("This Dashboard is part of the submission for the NFL Big Data Bowl 2024 competition. "
-                   "The explanation of SoF, MPD, and Survival Curve can be found in the Kaggle Notebook:",
+            html.P("This Dashboard is part of the submission to NFL Big Data Bowl 2024 competition "
+                   "which focuses on 'tackling'. A gradient boost survival analysis model was trained on the tracking "
+                   "data of short pass plays in NFL 2022 season to predict probability of down after caught. "
+                   "Detailed explanation can be found in the Kaggle Notebook:",
                    style={"margin-left": "40px", "margin-top": "10px"}),
 
             dbc.NavLink("Survival Analysis on Progress after Caught",
                         href="https://www.kaggle.com/code/lorihe/survival-analysis-on-progress-after-caught",
-                        style={'margin-left': '40px', 'margin-top': '5px', 'color': 'steelblue'})
+                        style={'margin-left': '40px', 'margin-top': '5px', 'color': 'steelblue', "font-weight": "bold",})
         ],
-        style={"margin-bottom": "20px"}
+        style={"margin-bottom": "20px", }
     )
 
 def play_select_card():
@@ -114,9 +116,9 @@ app.layout = dbc.Container(
             dbc.Col(
                 html.Div(
                     children=[
-                        html.Div(description_card(), style={"width": "90%"}),
-                        html.Div(play_select_card(), style={"width": "60%", 'margin-left': '80px', 'margin-top': '40px',})
-                    ], style={'margin-left': '0px', 'margin-right': '-40px',
+                        html.Div(description_card(), style={'margin-right': '0px',}),
+                        html.Div(play_select_card(), style={"width": "60%", 'margin-left': '80px', 'margin-top': '40px',}),
+                    ], style={'margin-left': '0px', 'margin-right': '-10px',
                               'margin-top': '40px', 'margin-bottom': '0px'}
                 ), xs={'size': 12}, sm={'size': 12}, md={'size': 12},
                 lg={'size': 2}, xl={'size': 2},
@@ -141,26 +143,34 @@ app.layout = dbc.Container(
                     html.Div(
                         children=[
                             html.P(id='SoF-lr-text',
-                                   style={'margin-top': '30px', 'margin-left': '50px', 'text-align': 'center',
+                                   style={'margin-top': '30px', 'margin-left': '40px', 'text-align': 'center',
                                           'font-family': 'Roboto, sans-serif', 'color': 'dimgrey'}),
                             html.P(id='SoF-text',
                                    style={'margin-top': '0px', 'margin-left': '50px', 'text-align': 'center',
                                           'font-family': 'Roboto, sans-serif', 'font-size': 18}),
                             dcc.Graph(id='plot-voronoi', config={'displayModeBar': False},
                                       style={'margin-top': '-10px', 'margin-left': '0px'})
-                        ], style={'display': 'inline-block', 'vertical-align': 'top'}
+                        ], style={'display': 'inline-block', 'vertical-align': 'top', 'width': '50%'}
                     ),
                     html.Div(
                         children=[
-                            html.P('Near Defenders MPD at caught',
-                                   style={'margin-top': '100px', 'margin-left': '20px', 'text-align': 'center',
+                            html.P(
+                                "SoF (sum of freedom): A measure of area to quantify how free the ball carrier "
+                                "can move under the defense team's pressure at caught moment, calculated with Voronoi statistics.",
+                                style={'margin-top': '10px', 'margin-left': '20px', 'margin-right': '10px',}, ),
+                            html.P("MPD (minimum possible distance): The minimum achievable distance between a defender and "
+                                "a carrier, calculated based on their current positions and velocities at caught moment.",
+                                   style = {'margin-top': '10px', 'margin-left': '20px', 'margin-right': '10px',},),
+                            html.P('Near Defenders MPD (yards) at caught',
+                                   style={'margin-top': '20px', 'margin-left': '20px', 'text-align': 'center',
                                           'font-family': 'Roboto, sans-serif', 'font-size': 18}),
                             dcc.Graph(id='plot-MPD', config={'displayModeBar': False},
-                                      style={'margin-top': '0px', 'margin-left': '0px'})
-                        ], style={'display': 'inline-block', 'vertical-align': 'top', 'margin-top': '30px', }
+                                      style={'margin-top': '20px', 'margin-left': '0px', 'margin-right': '15px'})
+                        ], style={'display': 'inline-block', 'vertical-align': 'top', 'margin-top': '30px',
+                                  'margin-right': '0px', 'width': '48%'}
                     ),
                     html.Hr(style={'margin-top': '2px', 'margin-bottom': '16px', 'border-width': '2px',
-                                   'margin-left': '40px', 'margin-right': '10px', 'color': 'grey'}),
+                                   'margin-left': '60px', 'margin-right': '10px', 'color': 'grey'}),
                     html.Div(
                         children=[
                             html.P('Survival Curve after Caught',
@@ -171,7 +181,7 @@ app.layout = dbc.Container(
                                           'font-family': 'Roboto, sans-serif', 'color': 'dimgrey'}),
                             dcc.Graph(id='plot-probs', config={'displayModeBar': False},
                                       style={'margin-top': '0px', 'margin-left': '130px'})
-                        ], style={'margin-top': '0px', 'margin-left': '0px'}
+                        ], style={'margin-top': '0px', 'margin-left': '0px', 'width': '90%'}
                     )
                 ],
                 xs={'size': 12}, sm={'size': 12}, md={'size': 12},
@@ -192,6 +202,14 @@ def get_games(date):
     return [{'label': i, 'value': i} for i in dash_list[date]]
 
 @app.callback(
+    Output("game-select", "value"),
+    [Input("date-select", "value")]
+)
+def reset_game_select(date):
+
+    return list(dash_list[date].keys())[0]
+
+@app.callback(
     Output("play-select", "options"),
     [Input("date-select", "value"),
      Input("game-select", "value")]
@@ -199,6 +217,13 @@ def get_games(date):
 def get_plays(date, game):
 
     return [{'label': i, 'value': i} for i in dash_list[date][game]]
+
+@app.callback(
+    Output("play-select", "value"),
+    [Input("game-select", "value")]
+)
+def reset_play_select(game):
+    return None
 
 @app.callback(
     Output("plot_frames_legend", "figure"),
@@ -213,7 +238,6 @@ def plot_frames(date, gameId, playId):
 
     if not playId:
         playId = dash_list[date][gameId][0]
-        
     gameId = int(gameId)
     playId = int(playId)
 
@@ -346,17 +370,21 @@ def plot_probs(date, gameId, playId):
 
     probs_text = f'yards to go after caught: {round(ytg_caught, 1)} | probability for down: {round(ytg_prob, 1)}'
 
+    xlim_l = ytg_caught if ytg_caught < 0 else 0
+
     fig = go.Figure()
     fig.add_trace(go.Scatter(x = survival_function.x, y= survival_function.y, mode='lines', name='Survival curve',
                              line=dict(color='darkblue', width=1)))
-    fig.add_vline(x = ytg_caught, line_width=2, line_dash="dash", line_color="peru", name = 'yards to ho after caught')
+    fig.add_vline(x = ytg_caught, line_width=2, line_dash="dash", line_color="peru")
+    fig.add_trace(go.Scatter(x=[None], y=[None], mode='lines', name='yards to go after caught',
+                             line=dict(color='peru', width=2, dash='dash')))
 
     fig.update_layout(yaxis_title='probability',
-                      xaxis=dict(tickfont=dict(size=12), dtick=2, title='progress'),
+                      xaxis=dict(tickfont=dict(size=12), dtick=2, title='progress', range=[xlim_l, 40]),
                       yaxis=dict(ticks="outside",  ticklen=5, title='probability'),
-                      width=800, height=400, showlegend=True, plot_bgcolor='whitesmoke',
+                      width=900, height=400, showlegend=True, plot_bgcolor='whitesmoke',
                       margin=dict(t=2, b=0, l=0, r=0),
-                      legend=dict(x=0.9, y=1.1, xanchor='center', yanchor='top', font = dict(size=12)))
+                      legend=dict(x=1, y=1, xanchor='right', yanchor='top', font = dict(size=12)))
 
     return probs_text, fig
 
