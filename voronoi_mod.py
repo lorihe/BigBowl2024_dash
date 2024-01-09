@@ -235,9 +235,9 @@ def plot_vor(points_nbs, hull_points, carrier_caught_xy, boundary_points, vertic
     # Set layout
     fig.update_layout(plot_bgcolor='white', xaxis=dict(range=[min_x-1, max_x+2], showticklabels = False),
                       yaxis=dict(range=[ylim_bot-1, ylim_top-1], showticklabels = False),
-                      showlegend=True, legend=dict(x=0.9, y=1, font = dict(size=13)),
+                      showlegend=True, legend=dict(x=1, y=1, font = dict(size=13)),
                       dragmode=False, width=500, height=400,
-                      margin=dict(t=4, b=0, r=2))
+                      margin=dict(t=4, b=0, r=2), )
     fig.update_xaxes(showgrid=False)
     fig.update_yaxes(showgrid=False, scaleanchor="x", scaleratio=1)    
     
@@ -299,8 +299,8 @@ def plot_MPD(MPD_dict):
     fig.update_layout(xaxis = dict(tickfont=dict(size = 12), dtick=1),
                       yaxis_tickfont=dict(size=14),
                       yaxis=dict(ticks="outside", tickcolor='white', ticklen=10),
-                      yaxis_autorange="reversed", width=550, height=250, margin=dict(t=0, r =0)
-                      )
+                      yaxis_autorange="reversed", width=550, height=250, margin=dict(t=0, r =0),
+                      dragmode=False)
 
     fig.update_yaxes(showgrid=False, scaleanchor="x", scaleratio=1)
 
