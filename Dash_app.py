@@ -172,7 +172,7 @@ app.layout = dbc.Container(
                                   'margin-left': '0px', 'margin-right': '0px', 'width': '480px', 'padding': '0px'},
 
                     ),
-                    html.Hr(style={'margin-top': '2px', 'margin-bottom': '16px', 'border-width': '2px',
+                    html.Hr(style={'margin-top': '0px', 'margin-bottom': '16px', 'border-width': '2px',
                                    'margin-left': '60px', 'margin-right': '10px', 'color': 'grey', "display": "flex"}),
                     html.Div(
                         children=[
@@ -382,7 +382,7 @@ def plot_probs(date, gameId, playId):
     fig.add_trace(go.Scatter(x=[None], y=[None], mode='lines', name='yards to go after caught',
                              line=dict(color='peru', width=2, dash='dash')))
 
-    fig.update_layout(yaxis_title='probability',
+    fig.update_layout(yaxis_title='probability', dragmode=False,
                       xaxis=dict(tickfont=dict(size=12), dtick=2, title='progress', range=[xlim_l, 40]),
                       yaxis=dict(ticks="outside",  ticklen=5, title='probability'),
                       width=900, height=400, showlegend=True, plot_bgcolor='whitesmoke',
